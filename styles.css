@@ -22,38 +22,28 @@ main {
   margin: 0 auto;
 }
 
-/* Tabs */
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
+/* Dropdown */
+.dropdown-container {
   margin-bottom: 1em;
 }
 
-.tab-button {
-  background: #eee;
-  border: none;
-  padding: 10px 20px;
-  margin-right: 5px;
-  cursor: pointer;
-  border-radius: 5px 5px 0 0;
+.dropdown-container label {
+  margin-right: 10px;
   font-weight: 600;
-  transition: background 0.3s;
 }
 
-.tab-button:hover {
-  background: #ccc;
+select {
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
 }
 
-.tab-button.active {
-  background: #0073e6;
-  color: #fff;
-}
-
-.tab-content {
+.dropdown-content {
   display: none;
 }
 
-.tab-content.active {
+.dropdown-content.active {
   display: block;
 }
 
@@ -119,13 +109,5 @@ footer {
 
   main {
     padding: 1.5em 1em;
-  }
-
-  .tabs {
-    flex-direction: column;
-  }
-
-  .tab-button {
-    margin-bottom: 5px;
   }
 }
