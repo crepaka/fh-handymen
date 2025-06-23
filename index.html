@@ -12,76 +12,24 @@
   </header>
 
   <main>
-    <!-- Dropdown menu -->
     <div class="dropdown-container">
       <label for="category-select">Select Category:</label>
-      <select id="category-select" onchange="showDropdownCategory()">
+-     <select id="category-select" onchange="showDropdownCategory()">
++     <select id="category-select">
         <option value="electricians">Electricians</option>
         <option value="plumbers">Plumbers</option>
-        <!-- Add more options as needed -->
       </select>
     </div>
 
-    <!-- Content for Electricians -->
-    <div id="electricians" class="dropdown-content active">
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Handyman Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Comments</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>John Doe</td>
-              <td>123-456-7890</td>
-              <td><a href="mailto:johndoe@example.com">johndoe@example.com</a></td>
-              <td>Very reliable and prompt.</td>
-            </tr>
-            <!-- Add more electricians here -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Content for Plumbers -->
-    <div id="plumbers" class="dropdown-content">
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Handyman Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Comments</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Jane Smith</td>
-              <td>987-654-3210</td>
-              <td><a href="mailto:janesmith@example.com">janesmith@example.com</a></td>
-              <td>Great service, fair pricing.</td>
-            </tr>
-            <!-- Add more plumbers here -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-
+    <div id="electricians" class="dropdown-content active">…</div>
+    <div id="plumbers"    class="dropdown-content">…</div>
   </main>
 
   <footer>
     <p>Community Directory &copy; 2025</p>
   </footer>
 
-  <script src="script.js"></script>
+- <script src="script.js"></script>
++ <script src="script.js" defer></script>
 </body>
 </html>
