@@ -1,90 +1,85 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Parse the CSV
   Papa.parse('data.csv', {
     download: true,
     header: true,
     skipEmptyLines: true,
-    complete: function(results) {
-      const data = results.data;
-      initPage(data);
-    }
+    comments: '#',
+    complete: results => initPage(results.data)
   });
 });
 
 function initPage(data) {
-  // 2. Determine unique categories
   const categories = [...new Set(data.map(r => r.category))];
-
-  // 3. Build the dropdown
+  
+  // Build dropdown
   const dd = document.createElement('select');
   dd.id = 'category-select';
   categories.forEach((cat, i) => {
     const opt = document.createElement('option');
     opt.value = cat;
-    opt.textContent = capitalize(cat);
+    opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
     if (i === 0) opt.selected = true;
     dd.appendChild(opt);
   });
   const dc = document.getElementById('dropdown-container');
-  const lbl = document.createElement('label');
-  lbl.htmlFor = dd.id;
-  lbl.textContent = 'Select Category: ';
-  dc.append(lbl, dd);
+  dc.innerHTML = `<label for="category-select">Select Category:</label>`;
+  dc.appendChild(dd);
 
-  // 4. Create one table container per category
+  // Build tables
   const content = document.getElementById('content-container');
+  content.innerHTML = '';
   categories.forEach((cat, i) => {
     const wrapper = document.createElement('div');
     wrapper.id = cat;
     wrapper.className = 'dropdown-content' + (i === 0 ? ' active' : '');
     
-    // Build table
+    // Create table
     const table = document.createElement('table');
-    const thead = document.createElement('thead');
-    thead.innerHTML = `
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Comments</th>
-      </tr>`;
-    table.appendChild(thead);
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data.filter(r => r.category === cat).map(r => `
+          <tr>
+            <td>${r.id}</td>
+            <td>${r.name}</td>
+            <td>${r.phone}</td>
+            <td><a href="mailto:${r.email}">${r.email}</a></td>
+            <td>${r.comments}</td>
+          </tr>
+        `).join('')}
+      </tbody>`;
 
-    const tbody = document.createElement('tbody');
-    // Filter rows for this category
-    data
-      .filter(r => r.category === cat)
-      .forEach(row => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${row.id}</td>
-          <td>${row.name}</td>
-          <td>${row.phone}</td>
-          <td><a href="mailto:${row.email}">${row.email}</a></td>
-          <td>${row.comments}</td>`;
-        tbody.appendChild(tr);
-      });
-    table.appendChild(tbody);
-
-    // Wrap & append
-    const tblWrap = document.createElement('div');
-    tblWrap.className = 'table-container';
-    tblWrap.appendChild(table);
-    wrapper.appendChild(tblWrap);
+    const wrap = document.createElement('div');
+    wrap.className = 'table-container';
+    wrap.appendChild(table);
+    wrapper.appendChild(wrap);
     content.appendChild(wrapper);
   });
 
-  // 5. Wire up onchange
+  // Dropdown change
   dd.addEventListener('change', () => {
-    const chosen = dd.value;
-    document.querySelectorAll('.dropdown-content').forEach(div => {
-      div.classList.toggle('active', div.id === chosen);
-    });
+    document.querySelectorAll('.dropdown-content').forEach(div =>
+      div.classList.toggle('active', div.id === dd.value)
+    );
+    document.getElementById('table-search').value = '';
+    filterRows('');
   });
+
+  // Search/filter
+  const searchInput = document.getElementById('table-search');
+  searchInput.addEventListener('input', e => filterRows(e.target.value.trim().toLowerCase()));
 }
 
-// helper
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+function filterRows(term) {
+  document.querySelectorAll('.dropdown-content.active tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+  });
 }
