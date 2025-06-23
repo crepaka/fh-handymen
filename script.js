@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const select = document.getElementById('category-select');
+  const selectEl = document.getElementById('category-select');
 
-  select.addEventListener('change', () => {
-    // Hide all category divs
+  // initial display setup
+  showCategory(selectEl.value);
+
+  selectEl.addEventListener('change', () => {
+    showCategory(selectEl.value);
+  });
+
+  function showCategory(categoryId) {
+    // hide all
     document.querySelectorAll('.dropdown-content')
       .forEach(div => div.classList.remove('active'));
-
-    // Show the one matching the selected value
-    const chosen = select.value;
-    const contentDiv = document.getElementById(chosen);
-    if (contentDiv) {
-      contentDiv.classList.add('active');
-    }
-  });
+    // show selected
+    const chosenDiv = document.getElementById(categoryId);
+    if (chosenDiv) chosenDiv.classList.add('active');
+  }
 });
