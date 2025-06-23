@@ -12,14 +12,18 @@
   </header>
 
   <main>
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-button active" onclick="showCategory('electricians')">Electricians</button>
-      <button class="tab-button" onclick="showCategory('plumbers')">Plumbers</button>
+    <!-- Dropdown menu -->
+    <div class="dropdown-container">
+      <label for="category-select">Select Category:</label>
+      <select id="category-select" onchange="showDropdownCategory()">
+        <option value="electricians">Electricians</option>
+        <option value="plumbers">Plumbers</option>
+        <!-- Add more options as needed -->
+      </select>
     </div>
 
     <!-- Content for Electricians -->
-    <div id="electricians" class="tab-content active">
+    <div id="electricians" class="dropdown-content active">
       <div class="table-container">
         <table>
           <thead>
@@ -39,14 +43,14 @@
               <td><a href="mailto:johndoe@example.com">johndoe@example.com</a></td>
               <td>Very reliable and prompt.</td>
             </tr>
-            <!-- More electricians here -->
+            <!-- Add more electricians here -->
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- Content for Plumbers -->
-    <div id="plumbers" class="tab-content">
+    <div id="plumbers" class="dropdown-content">
       <div class="table-container">
         <table>
           <thead>
@@ -66,7 +70,7 @@
               <td><a href="mailto:janesmith@example.com">janesmith@example.com</a></td>
               <td>Great service, fair pricing.</td>
             </tr>
-            <!-- More plumbers here -->
+            <!-- Add more plumbers here -->
           </tbody>
         </table>
       </div>
