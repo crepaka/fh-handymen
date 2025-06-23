@@ -1,1 +1,4 @@
-
+category,id,name,phone,email,comments
+electricians,1,John Doe,123-456-7890,johndoe@example.com,"Very reliable and prompt."
+plumbers,1,Jane Smith,987-654-3210,janesmith@example.com,"Great service, fair pricing."
+// Add more rows and categories here, e.g. painters, carpenters…
