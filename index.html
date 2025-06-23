@@ -8,47 +8,76 @@
 </head>
 <body>
   <header>
-    <h1>Frisco Hills Preferred Handymen List</h1>
+    <h1>Frisco Hills Preferred Handymen</h1>
   </header>
 
   <main>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Handyman Type</th>
-            <th>Handyman Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Electrician</td>
-            <td>John Doe</td>
-            <td>123-456-7890</td>
-            <td><a href="mailto:johndoe@example.com">johndoe@example.com</a></td>
-            <td>Very reliable and prompt.</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Plumber</td>
-            <td>Jane Smith</td>
-            <td>987-654-3210</td>
-            <td><a href="mailto:janesmith@example.com">janesmith@example.com</a></td>
-            <td>Great service, fair pricing.</td>
-          </tr>
-          <!-- Add more rows as needed -->
-        </tbody>
-      </table>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-button active" onclick="showCategory('electricians')">Electricians</button>
+      <button class="tab-button" onclick="showCategory('plumbers')">Plumbers</button>
     </div>
+
+    <!-- Content for Electricians -->
+    <div id="electricians" class="tab-content active">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Handyman Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>John Doe</td>
+              <td>123-456-7890</td>
+              <td><a href="mailto:johndoe@example.com">johndoe@example.com</a></td>
+              <td>Very reliable and prompt.</td>
+            </tr>
+            <!-- More electricians here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Content for Plumbers -->
+    <div id="plumbers" class="tab-content">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Handyman Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Comments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Jane Smith</td>
+              <td>987-654-3210</td>
+              <td><a href="mailto:janesmith@example.com">janesmith@example.com</a></td>
+              <td>Great service, fair pricing.</td>
+            </tr>
+            <!-- More plumbers here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </main>
 
   <footer>
     <p>Community Directory &copy; 2025</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
