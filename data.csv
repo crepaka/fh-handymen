@@ -1,0 +1,12 @@
+category,id,name,phone,email,comments
+# Format: category,id,name,phone,email,comments
+
+electricians,1,John Doe,123-456-7890,johndoe@example.com,"Very reliable and prompt."
+electricians,2,Alice Johnson,321-654-0987,alicej@example.com,"Expert wiring, neat finish."
+
+plumbers,1,Jane Smith,987-654-3210,janesmith@example.com,"Great service, fair pricing."
+plumbers,2,Robert Brown,555-123-4567,robertb@example.com,"Quick response, very professional."
+
+painters,1,Bob Ross,444-555-6666,bobross@example.com,"Creates happy little trees in every room."
+
+carpenters,1,Emily Davis,222-333-4444,emilyd@example.com,"Perfect custom cabinets."
