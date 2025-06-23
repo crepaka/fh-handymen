@@ -12,16 +12,13 @@
   </header>
 
   <main>
-    <!-- Dropdown menu -->
     <div id="dropdown-container" class="dropdown-container"></div>
 
-    <!-- Search field -->
     <div class="search-container">
       <label for="table-search">Search:</label>
       <input type="text" id="table-search" placeholder="Type to filter..." />
     </div>
 
-    <!-- Tables injected here -->
     <div id="content-container"></div>
   </main>
 
@@ -29,8 +26,9 @@
     <p>Community Directory &copy; 2025</p>
   </footer>
 
-  <!-- PapaParse for CSV parsing -->
+  <!-- load PapaParse first -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
+  <!-- then our script -->
   <script src="script.js" defer></script>
 </body>
 </html>
