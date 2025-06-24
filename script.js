@@ -53,7 +53,7 @@ function initPage(data) {
     table.innerHTML = `
       <thead>
         <tr>
-          <th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Comments</th>
+          <th>ID</th><th>Name</th><th>Contact</th><th>Comments</th>
         </tr>
       </thead>
       <tbody>
@@ -61,8 +61,10 @@ function initPage(data) {
           <tr>
             <td>${r.id}</td>
             <td>${r.name}</td>
-            <td>${r.phone}</td>
-            <td><a href="mailto:${r.email}">${r.email}</a></td>
+            <td>
+              ${r.phone ? '📞 ' + r.phone + '<br>' : ''}
+              ${r.email ? '✉️ <a href="mailto:' + r.email + '">' + r.email + '</a>' : ''}
+            </td>
             <td>${r.comments}</td>
           </tr>`).join('')}
       </tbody>`;
