@@ -31,7 +31,6 @@ function initPage(data) {
   const dd = document.createElement('select');
   dd.id = 'category-select';
 
-  // Add 'All' option
   const allOption = document.createElement('option');
   allOption.value = 'all';
   allOption.textContent = 'All';
@@ -48,7 +47,6 @@ function initPage(data) {
   const content = document.getElementById('content-container');
   content.innerHTML = '';
 
-  // Create tables per category
   categories.forEach(cat => {
     const section = document.createElement('div');
     section.id = cat;
@@ -57,14 +55,12 @@ function initPage(data) {
     content.appendChild(section);
   });
 
-  // Create a section for "All" with category column
   const allSection = document.createElement('div');
   allSection.id = 'all';
   allSection.className = 'dropdown-content active';
   allSection.innerHTML = generateTable(data, true);
   content.insertBefore(allSection, content.firstChild);
 
-  // Dropdown change
   dd.addEventListener('change', () => {
     document.querySelectorAll('.dropdown-content').forEach(div =>
       div.classList.toggle('active', div.id === dd.value)
@@ -73,7 +69,6 @@ function initPage(data) {
     filterRows('');
   });
 
-  // Search filter
   document.getElementById('table-search').addEventListener('input', e => {
     filterRows(e.target.value.trim().toLowerCase());
   });
@@ -85,7 +80,7 @@ function generateTable(data, showCategory) {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>Name</th>
             ${showCategory ? '<th>Category</th>' : ''}
             <th>Contact</th>
@@ -93,9 +88,9 @@ function generateTable(data, showCategory) {
           </tr>
         </thead>
         <tbody>
-          ${data.map(r => `
+          ${data.map((r, i) => `
             <tr>
-              <td>${r.id}</td>
+              <td>${i + 1}</td>
               <td>${r.name}</td>
               ${showCategory ? `<td>${r.category}</td>` : ''}
               <td>
