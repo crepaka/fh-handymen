@@ -53,15 +53,15 @@ function initPage(data) {
     const section = document.createElement('div');
     section.id = cat;
     section.className = 'dropdown-content';
-    section.innerHTML = generateTable(data.filter(r => r.category === cat));
+    section.innerHTML = generateTable(data.filter(r => r.category === cat), false);
     content.appendChild(section);
   });
 
-  // Create a section for "All"
+  // Create a section for "All" with category column
   const allSection = document.createElement('div');
   allSection.id = 'all';
   allSection.className = 'dropdown-content active';
-  allSection.innerHTML = generateTable(data);
+  allSection.innerHTML = generateTable(data, true);
   content.insertBefore(allSection, content.firstChild);
 
   // Dropdown change
@@ -79,13 +79,17 @@ function initPage(data) {
   });
 }
 
-function generateTable(data) {
+function generateTable(data, showCategory) {
   return `
     <div class="table-container">
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Name</th><th>Contact</th><th>Comments</th>
+            <th>ID</th>
+            <th>Name</th>
+            ${showCategory ? '<th>Category</th>' : ''}
+            <th>Contact</th>
+            <th>Comments</th>
           </tr>
         </thead>
         <tbody>
@@ -93,6 +97,7 @@ function generateTable(data) {
             <tr>
               <td>${r.id}</td>
               <td>${r.name}</td>
+              ${showCategory ? `<td>${r.category}</td>` : ''}
               <td>
                 ${r.phone ? '📞 ' + r.phone + '<br>' : ''}
                 ${r.email ? '✉️ <a href="mailto:' + r.email + '">' + r.email + '</a>' : ''}
