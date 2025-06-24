@@ -90,14 +90,14 @@ function generateTable(data, showCategory) {
         <tbody>
           ${data.map((r, i) => `
             <tr>
-              <td>${i + 1}</td>
-              <td>${r.name}</td>
-              ${showCategory ? `<td>${r.category}</td>` : ''}
-              <td>
+              <td data-label="#">${i + 1}</td>
+              <td data-label="Name">${r.name}</td>
+              ${showCategory ? `<td data-label="Category">${r.category}</td>` : ''}
+              <td data-label="Contact">
                 ${r.phone ? '📞 ' + r.phone + '<br>' : ''}
                 ${r.email ? '✉️ <a href="mailto:' + r.email + '">' + r.email + '</a>' : ''}
               </td>
-              <td>${r.comments}</td>
+              <td data-label="Comments">${r.comments}</td>
             </tr>
           `).join('')}
         </tbody>
