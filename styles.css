@@ -131,3 +131,16 @@ footer {
     padding: 1.5em 1em;
   }
 }
+
+
+/* Enhanced styling for contact cell */
+td {
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* Contact column special formatting */
+td a {
+  display: inline-block;
+  margin-top: 4px;
+}
