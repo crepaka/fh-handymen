@@ -147,3 +147,42 @@ td:first-child {
 }
 
 }
+
+th {
+  cursor: pointer;
+}
+th.asc::after {
+  content: " ▲";
+}
+th.desc::after {
+  content: " ▼";
+}
+
+th {
+  cursor: pointer;
+}
+th.asc::after {
+  content: " ▲";
+}
+th.desc::after {
+  content: " ▼";
+}
+
+@media (max-width: 768px) {
+  th:first-child,
+  td:first-child {
+    min-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  td {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  table {
+    width: 100%;
+    font-size: 0.95em;
+  }
+}

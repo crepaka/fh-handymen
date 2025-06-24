@@ -78,19 +78,29 @@ function generateTable(data, showCategory) {
   return `
     <div class="table-container">
       <table>
-        <thead>
+        
+    <thead>
+      <tr>
+        <th onclick="sortTable(this, 0)">#</th>
+        <th onclick="sortTable(this, 1)">Name</th>
+        ${showCategory ? '<th onclick="sortTable(this, 2)">Category</th>' : ''}
+        <th>Contact</th>
+        <th onclick="sortTable(this, showCategory ? 4 : 3)">Comments</th>
+      </tr>
+    </thead>
+    
           <tr>
-            <th>#</th>
-            <th>Name</th>
-            ${showCategory ? '<th>Category</th>' : ''}
+            <th onclick="sortTable(this, 0)">#</th>
+            <th onclick="sortTable(this, 1)">Name</th>
+            ${showCategory ? '<th onclick="sortTable(this, 2)">Category</th>' : ''}
             <th>Contact</th>
-            <th>Comments</th>
+            <th onclick="sortTable(this, showCategory ? 4 : 3)">Comments</th>
           </tr>
         </thead>
         <tbody>
           ${data.map((r, i) => `
             <tr>
-              <td>${i + 1}</td>
+              <td>#${i + 1}</td>
               <td>${r.name}</td>
               ${showCategory ? `<td>${r.category}</td>` : ''}
               <td>
@@ -111,4 +121,40 @@ function filterRows(term) {
     .forEach(row => {
       row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
     });
+}
+
+function sortTable(header, columnIndex) {
+  const table = header.closest('table');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.rows);
+  const isAsc = !header.classList.contains('asc');
+
+  rows.sort((a, b) => {
+    const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
+    const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
+    return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+
+  table.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
+  header.classList.toggle(isAsc ? 'asc' : 'desc');
+}
+
+function sortTable(header, columnIndex) {
+  const table = header.closest('table');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.rows);
+  const isAsc = !header.classList.contains('asc');
+
+  rows.sort((a, b) => {
+    const cellA = a.cells[columnIndex]?.textContent.trim().toLowerCase() || "";
+    const cellB = b.cells[columnIndex]?.textContent.trim().toLowerCase() || "";
+    return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+
+  table.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
+  header.classList.toggle(isAsc ? 'asc' : 'desc');
 }
