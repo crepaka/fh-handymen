@@ -1,33 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Frisco Hills Preferred Handymen List</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <title>FH Helpdesk Contacts</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Frisco Hills Preferred Handymen</h1>
-  </header>
-
-  <main>
-    <div id="dropdown-container" class="dropdown-container"></div>
-
-    <div class="search-container">
-      <label for="table-search">Search:</label>
-      <input type="text" id="table-search" placeholder="Type to filter..." />
+    <h1>FH Helpdesk Directory</h1>
+    <div class="filter">
+        <label for="categorySelect">Filter by Category:</label>
+        <select id="categorySelect">
+            <option value="All">All</option>
+        </select>
     </div>
-
-    <div id="content-container"></div>
-  </main>
-
-  <footer>
-    <p>Community Directory &copy; 2025</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js" defer></script>
-  <script src="script.js" defer></script>
+    <table id="contactsTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="script.js"></script>
 </body>
 </html>
