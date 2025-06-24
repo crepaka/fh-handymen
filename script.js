@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initPage(data) {
-  const categories = [...new Set(data.map(r => r.category))];
+  let categories = [...new Set(data.map(r => r.category))];
+  categories.sort((a, b) => a.localeCompare(b));
+
   const dc = document.getElementById('dropdown-container');
   dc.innerHTML = `<label for="category-select">Select Category:</label>`;
   const dd = document.createElement('select');
@@ -35,7 +37,7 @@ function initPage(data) {
   allOption.textContent = 'All';
   dd.appendChild(allOption);
 
-  categories.forEach((cat, i) => {
+  categories.forEach(cat => {
     const opt = document.createElement('option');
     opt.value = cat;
     opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -47,7 +49,7 @@ function initPage(data) {
   content.innerHTML = '';
 
   // Create tables per category
-  categories.forEach((cat) => {
+  categories.forEach(cat => {
     const section = document.createElement('div');
     section.id = cat;
     section.className = 'dropdown-content';
