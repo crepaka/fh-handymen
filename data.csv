@@ -1,20 +1,20 @@
 category,id,name,phone,email,comments
 # Format: category,id,name,phone,email,comments
 
-electricians,1,John Doe,123-456-7890,johndoe@example.com,"Very reliable and prompt."
-electricians,2,Alice Johnson,321-654-0987,alicej@example.com,"Expert wiring, neat finish."
+electricians,1,Andros Electrician,214-476-0443,,"Very Good"
+electricians,1,Hosay,818-233-2017,,
+Appliance Repair, 1,Serhii Perinha,469-954-5278,,
+Water Softner/Filter,1,Roger,469-679-1788,,
 
-plumbers,1,Jane Smith,987-654-3210,janesmith@example.com,"Great service, fair pricing."
-plumbers,2,Robert Brown,555-123-4567,robertb@example.com,"Quick response, very professional."
 
-painters,1,Bob Ross,444-555-6666,bobross@example.com,"Creates happy little trees in every room."
-
-carpenters,1,Emily Davis,222-333-4444,emilyd@example.com,"Perfect custom cabinets."
 
 Cab/Taxi Services, 1,Kajol CAB service, 972-352-8434,, "Can Carry 6+ Bagscab" 
 Cab/Taxi Services, 2,James Cab Driver, 616-558-4221,, "He does it for $50 to airport (you can refer Subhash Nair as reference), 2 big bags and one carry on" 
 Cab/Taxi Services, 3,DLS (Limo) Transport, 214-400-9181 or 972-900-5522,dfwlimosam@gmail.com,"Four people and their luggage, excellent service from FH guys" 
 
-HVAC (Central AC and Heating), 1, Srini Gadiparthy - HVAC Mechanic, 714-515-8553,,
+HVAC (Central AC and Heating), 1, Srini Gadiparthy, 714-515-8553,,
+HVAC (Central AC and Heating), 2, Jojo, 929-285-7682,,
+
 Locksmith, 1, David Locksmith, 972-765-1145,,
+Windows, 1, PRECISION WINDOWS, 972-562-8828,,
 
