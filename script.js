@@ -1,160 +1,93 @@
 
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('data.csv')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Network error: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(csvText => {
-      const { data } = Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-        comments: '#'
-      });
-      initPage(data);
-    })
-    .catch(err => {
-      console.error('Failed to load data.csv:', err);
-      const container = document.getElementById('content-container');
-      container.innerHTML = `<p style="color:red">Error loading data.</p>`;
-    });
-});
+let originalData = [];
+let currentSort = { key: null, asc: true };
 
-function initPage(data) {
-  let categories = [...new Set(data.map(r => r.category))];
-  categories.sort((a, b) => a.localeCompare(b));
+function loadCSV() {
+  Papa.parse("data.csv", {
+    download: true,
+    header: true,
+    complete: function(results) {
+      originalData = results.data.filter(row => row.name);
+      populateCategoryFilter(originalData);
+      renderData(originalData);
+    }
+  });
+}
 
-  const dc = document.getElementById('dropdown-container');
-  dc.innerHTML = `<label for="category-select">Select Category:</label>`;
-  const dd = document.createElement('select');
-  dd.id = 'category-select';
-
-  const allOption = document.createElement('option');
-  allOption.value = 'all';
-  allOption.textContent = 'All';
-  dd.appendChild(allOption);
-
+function populateCategoryFilter(data) {
+  const categories = [...new Set(data.map(row => row.category).filter(Boolean))].sort();
+  const select = document.getElementById("category");
+  select.innerHTML = '<option value="All">All</option>';
   categories.forEach(cat => {
-    const opt = document.createElement('option');
+    const opt = document.createElement("option");
     opt.value = cat;
-    opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-    dd.appendChild(opt);
-  });
-  dc.appendChild(dd);
-
-  const content = document.getElementById('content-container');
-  content.innerHTML = '';
-
-  categories.forEach(cat => {
-    const section = document.createElement('div');
-    section.id = cat;
-    section.className = 'dropdown-content';
-    section.innerHTML = generateTable(data.filter(r => r.category === cat), false);
-    content.appendChild(section);
-  });
-
-  const allSection = document.createElement('div');
-  allSection.id = 'all';
-  allSection.className = 'dropdown-content active';
-  allSection.innerHTML = generateTable(data, true);
-  content.insertBefore(allSection, content.firstChild);
-
-  dd.addEventListener('change', () => {
-    document.querySelectorAll('.dropdown-content').forEach(div =>
-      div.classList.toggle('active', div.id === dd.value)
-    );
-    document.getElementById('table-search').value = '';
-    filterRows('');
-  });
-
-  document.getElementById('table-search').addEventListener('input', e => {
-    filterRows(e.target.value.trim().toLowerCase());
+    opt.textContent = cat;
+    select.appendChild(opt);
   });
 }
 
-function generateTable(data, showCategory) {
-  return `
-    <div class="table-container">
-      <table>
-        
-    <thead>
-      <tr>
-        <th onclick="sortTable(this, 0)">#</th>
-        <th onclick="sortTable(this, 1)">Name</th>
-        ${showCategory ? '<th onclick="sortTable(this, 2)">Category</th>' : ''}
-        <th>Contact</th>
-        <th onclick="sortTable(this, showCategory ? 4 : 3)">Comments</th>
-      </tr>
-    </thead>
-    
-          <tr>
-            <th onclick="sortTable(this, 0)">#</th>
-            <th onclick="sortTable(this, 1)">Name</th>
-            ${showCategory ? '<th onclick="sortTable(this, 2)">Category</th>' : ''}
-            <th>Contact</th>
-            <th onclick="sortTable(this, showCategory ? 4 : 3)">Comments</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${data.map((r, i) => `
-            <tr>
-              <td>#${i + 1}</td>
-              <td>${r.name}</td>
-              ${showCategory ? `<td>${r.category}</td>` : ''}
-              <td>
-                ${r.phone ? '📞 ' + r.phone + '<br>' : ''}
-                ${r.email ? '✉️ <a href="mailto:' + r.email + '">' + r.email + '</a>' : ''}
-              </td>
-              <td>${r.comments}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
+function renderData(data) {
+  const tbody = document.querySelector("#data-table tbody");
+  const cards = document.getElementById("cards-container");
+  tbody.innerHTML = "";
+  cards.innerHTML = "";
 
-function filterRows(term) {
-  document.querySelectorAll('.dropdown-content.active tbody tr')
-    .forEach(row => {
-      row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
-    });
-}
+  const filteredData = applyFilters(data);
 
-function sortTable(header, columnIndex) {
-  const table = header.closest('table');
-  const tbody = table.querySelector('tbody');
-  const rows = Array.from(tbody.rows);
-  const isAsc = !header.classList.contains('asc');
+  filteredData.forEach((row, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${row.name}</td>
+      <td>${row.category}</td>
+      <td><a href="tel:${row.phone}">📞 ${row.phone}</a></td>
+      <td>${row.comments}</td>
+    `;
+    tbody.appendChild(tr);
 
-  rows.sort((a, b) => {
-    const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
-    const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
-    return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-number"># ${index + 1}</div>
+      <div><strong>Name</strong><br>${row.name}</div>
+      <div><strong>Contact</strong><br><a href="tel:${row.phone}">📞 ${row.phone}</a></div>
+      <div><strong>Comments</strong><br>${row.comments}</div>
+    `;
+    cards.appendChild(card);
   });
-
-  rows.forEach(row => tbody.appendChild(row));
-
-  table.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
-  header.classList.toggle(isAsc ? 'asc' : 'desc');
 }
 
-function sortTable(header, columnIndex) {
-  const table = header.closest('table');
-  const tbody = table.querySelector('tbody');
-  const rows = Array.from(tbody.rows);
-  const isAsc = !header.classList.contains('asc');
+function applyFilters(data) {
+  const category = document.getElementById("category").value;
+  const search = document.getElementById("search").value.toLowerCase();
 
-  rows.sort((a, b) => {
-    const cellA = a.cells[columnIndex]?.textContent.trim().toLowerCase() || "";
-    const cellB = b.cells[columnIndex]?.textContent.trim().toLowerCase() || "";
-    return isAsc ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+  return data.filter(row => {
+    const matchesCategory = category === "All" || row.category === category;
+    const matchesSearch = Object.values(row).some(val => val && val.toLowerCase().includes(search));
+    return matchesCategory && matchesSearch;
   });
-
-  rows.forEach(row => tbody.appendChild(row));
-
-  table.querySelectorAll('th').forEach(th => th.classList.remove('asc', 'desc'));
-  header.classList.toggle(isAsc ? 'asc' : 'desc');
 }
+
+function handleFilterChange() {
+  renderData(originalData);
+}
+
+function sortBy(key) {
+  const asc = currentSort.key === key ? !currentSort.asc : true;
+  currentSort = { key, asc };
+  originalData.sort((a, b) => {
+    if (!a[key]) return 1;
+    if (!b[key]) return -1;
+    return asc ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+  });
+  renderData(originalData);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadCSV();
+  document.getElementById("search").addEventListener("input", handleFilterChange);
+  document.getElementById("category").addEventListener("change", handleFilterChange);
+  document.querySelectorAll("th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => sortBy(th.dataset.sort));
+  });
+});
