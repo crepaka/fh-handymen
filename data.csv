@@ -2,7 +2,7 @@ category,id,name,phone,email,comments
 # Format: category,id,name,phone,email,comments
 
 electricians,1,Andros Electrician,214-476-0443,,"Very Good"
-electricians,1,Hosay,818-233-2017,,
+electricians,2,Hosay,818-233-2017,,
 Appliance Repair, 1,Serhii Perinha,469-954-5278,,
 Water Softner/Filter,1,Roger,469-679-1788,,
 Sprinkler,1,Nick - American Green Sprinklers, 214-563-5968,,"He is good and with reasonable price, responds quick in whatsapp as well"
@@ -18,4 +18,3 @@ HVAC (Central AC and Heating), 2, Jojo, 929-285-7682,,
 
 Locksmith, 1, David Locksmith, 972-765-1145,,
 Windows, 1, PRECISION WINDOWS, 972-562-8828,,
-
