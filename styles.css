@@ -1,4 +1,5 @@
 
+/* Base styles */
 body {
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -86,6 +87,12 @@ th, td {
   white-space: normal;
 }
 
+th:first-child,
+td:first-child {
+  min-width: 40px;
+  text-align: center;
+}
+
 th {
   background-color: #f4f6f8;
   font-weight: 600;
@@ -117,33 +124,38 @@ footer {
   margin-top: 2em;
 }
 
+/* Responsive: stacked cards on small screens */
 @media (max-width: 768px) {
-  table {
-    font-size: 0.9em;
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
   }
 
-  th, td {
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1.2em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   }
 
-  .search-container input,
-  select {
-    font-size: 1em;
+  td {
+    text-align: left;
+    padding: 6px 10px;
+    border: none;
+    position: relative;
   }
 
-  header {
-    font-size: 1.1em;
-    padding: 1em;
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #555;
   }
-
-  h1 {
-    font-size: 1.5em;
-  }
-  /* Ensure serial number column has enough space */
-th:first-child,
-td:first-child {
-  min-width: 40px;
-  text-align: center;
-}
-
 }
