@@ -1,4 +1,5 @@
 
+/* Base styles */
 body {
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -12,9 +13,9 @@ header {
   background-color: #0073e6;
   color: #fff;
   text-align: center;
-  padding: 1em 0.5em;
-  font-size: 1.25em;
-  font-weight: 600;
+  padding: 1.5em 1em;
+  font-size: 1.5em;
+  font-weight: 700;
 }
 
 main {
@@ -89,6 +90,21 @@ th, td {
 th {
   background-color: #f4f6f8;
   font-weight: 600;
+  cursor: pointer;
+}
+
+th.sort-asc::after {
+  content: ' 🔼';
+}
+
+th.sort-desc::after {
+  content: ' 🔽';
+}
+
+th:first-child,
+td:first-child {
+  width: 50px;
+  text-align: center;
 }
 
 tr:nth-child(even) {
@@ -117,33 +133,42 @@ footer {
   margin-top: 2em;
 }
 
+/* Responsive view */
 @media (max-width: 768px) {
-  table {
-    font-size: 0.9em;
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
   }
 
-  th, td {
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1.2em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   }
 
-  .search-container input,
-  select {
-    font-size: 1em;
+  td {
+    text-align: left;
+    padding: 6px 10px;
+    border: none;
+    position: relative;
   }
 
-  header {
-    font-size: 1.1em;
-    padding: 1em;
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #555;
   }
 
-  h1 {
-    font-size: 1.5em;
+  td:first-child::before {
+    content: "ID";
   }
-  /* Ensure serial number column has enough space */
-th:first-child,
-td:first-child {
-  min-width: 40px;
-  text-align: center;
-}
-
 }
