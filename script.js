@@ -51,7 +51,7 @@ function renderData(data) {
       <div class="card-number"># ${index + 1}</div>
       <div><strong>Name</strong><br>${row.name}</div>
       <div><strong>Contact</strong><br><a href="tel:${row.phone}">📞 ${row.phone}</a></div>
-      <div><strong>Comments</strong><br>${row.comments}</div>
+      ${row.comments ? `<div><strong>Comments</strong><br>${row.comments}</div>` : ''}
     `;
     cards.appendChild(card);
   });
