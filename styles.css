@@ -1,10 +1,8 @@
-
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9fbfd;
-  color: #333;
+  background: #f9f9f9;
 }
 
 header {
@@ -22,39 +20,41 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1rem;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
-.controls label {
-  margin-right: 0.5rem;
+label {
+  font-weight: bold;
 }
 
-input[type="text"], select {
+input, select {
   padding: 0.5rem;
-  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+.directory {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-th, td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #e0e0e0;
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-th {
-  background-color: #f1f3f5;
-  font-weight: 600;
+.row {
+  margin-bottom: 0.5rem;
 }
 
-tr:hover {
-  background-color: #f9f9f9;
+.label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.2rem;
 }
 
 a {
@@ -62,42 +62,16 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
 footer {
   text-align: center;
   padding: 1rem;
   font-size: 0.9rem;
-  color: #666;
+  color: #888;
 }
 
-@media (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tr {
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 5px;
-  }
-
-  td {
-    padding: 8px 0;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  td::before {
-    font-weight: bold;
-    content: attr(data-label);
-    flex-basis: 40%;
+@media (min-width: 768px) {
+  .card {
+    max-width: 600px;
+    margin: 0 auto;
   }
 }

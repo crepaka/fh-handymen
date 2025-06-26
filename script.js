@@ -1,82 +1,58 @@
-
-async function loadCSV(url) {
-  const response = await fetch(url);
+async function loadCSV() {
+  const response = await fetch('data.csv');
   const text = await response.text();
-  const rows = text.split('\n').slice(1);
-  return rows
-    .map(row => row.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '')))
-    .filter(cols => cols.length >= 5)
-    .map((cols, i) => ({
-      id: i + 1,
-      name: cols[0],
-      category: cols[1],
-      phone: cols[2],
-      email: cols[3],
-      comments: cols[4]
-    }));
+  const rows = text.trim().split('\n').map(row => row.split(','));
+  const headers = rows.shift();
+  return rows.map(row => Object.fromEntries(row.map((val, i) => [headers[i].trim(), val.trim()])));
 }
 
-function renderTable(data) {
-  const table = document.createElement('table');
-  const thead = table.createTHead();
-  const headerRow = thead.insertRow();
-  ['#', 'Name', 'Category', 'Contact', 'Comments'].forEach(text => {
-    const th = document.createElement('th');
-    th.textContent = text;
-    headerRow.appendChild(th);
-  });
+function createCard(entry, index) {
+  const card = document.createElement('div');
+  card.className = 'card';
 
-  const tbody = table.createTBody();
-  data.forEach(entry => {
-    const row = tbody.insertRow();
-    row.insertCell().textContent = entry.id;
-    row.insertCell().textContent = entry.name;
-    row.insertCell().textContent = entry.category;
+  card.innerHTML = `
+    <div class="row"><span class="label">#</span> ${index + 1}</div>
+    <div class="row"><span class="label">Name</span> ${entry.name}</div>
+    <div class="row"><span class="label">Category</span> ${entry.category}</div>
+    <div class="row"><span class="label">Contact</span> ${entry.phone ? `📞 <a href="tel:${entry.phone}">${entry.phone}</a>` : ''}</div>
+    ${entry.comments ? `<div class="row"><span class="label">Comments</span> ${entry.comments}</div>` : ''}
+  `;
+  return card;
+}
 
-    const phoneCell = row.insertCell();
-    phoneCell.innerHTML = entry.phone ? `<a href="tel:${entry.phone}">📞 ${entry.phone}</a>` : '';
-
-    const commentsCell = row.insertCell();
-    commentsCell.textContent = entry.comments || '';
-  });
-
+function renderDirectory(data, filterCategory = '', searchTerm = '') {
   const container = document.getElementById('directory');
   container.innerHTML = '';
-  container.appendChild(table);
-}
-
-function setupFilter(data) {
-  const input = document.getElementById('searchInput');
-  const select = document.getElementById('categorySelect');
-
-  function filter() {
-    const keyword = input.value.toLowerCase();
-    const category = select.value;
-    const filtered = data.filter(item =>
-      (!category || item.category === category) &&
-      Object.values(item).some(val => val && val.toLowerCase().includes(keyword))
-    );
-    renderTable(filtered);
-  }
-
-  input.addEventListener('input', filter);
-  select.addEventListener('change', filter);
+  const filtered = data.filter(entry =>
+    (!filterCategory || entry.category === filterCategory) &&
+    (!searchTerm || Object.values(entry).some(val => val.toLowerCase().includes(searchTerm.toLowerCase())))
+  );
+  filtered.forEach((entry, index) => {
+    container.appendChild(createCard(entry, index));
+  });
 }
 
 function populateCategoryDropdown(data) {
-  const categories = [...new Set(data.map(row => row.category).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-  const select = document.getElementById('categorySelect');
+  const select = document.getElementById('categoryFilter');
+  const categories = [...new Set(data.map(entry => entry.category))].sort();
   categories.forEach(cat => {
-    const opt = document.createElement('option');
-    opt.value = cat;
-    opt.textContent = cat;
-    select.appendChild(opt);
+    const option = document.createElement('option');
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
   });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const data = await loadCSV('data.csv');
+  const data = await loadCSV();
   populateCategoryDropdown(data);
-  renderTable(data);
-  setupFilter(data);
+  renderDirectory(data);
+
+  document.getElementById('categoryFilter').addEventListener('change', e => {
+    renderDirectory(data, e.target.value, document.getElementById('searchBox').value);
+  });
+
+  document.getElementById('searchBox').addEventListener('input', e => {
+    renderDirectory(data, document.getElementById('categoryFilter').value, e.target.value);
+  });
 });
