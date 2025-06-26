@@ -4,45 +4,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Frisco Hills Preferred Contact Numbers For Home Improvement and Others</title>
+  <title>FH Helpdesk Directory</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
   <header>
-    <h1>Frisco Hills Preferred Contact Numbers For Home Improvement and Others</h1>
+    <h1>FH Helpdesk Directory</h1>
   </header>
-
   <main>
     <div class="controls">
-      <label for="category">Select Category:</label>
-      <select id="category"></select>
-
-      <label for="search">Search:</label>
-      <input type="text" id="search" placeholder="Type to filter..." />
+      <label for="categorySelect"><strong>Select Category:</strong></label>
+      <select id="categorySelect">
+        <option value="">All</option>
+      </select>
+      <label for="searchInput"><strong>Search:</strong></label>
+      <input type="text" id="searchInput" placeholder="Type to filter..." />
     </div>
-
-    <div id="table-container">
-      <table id="data-table">
-        <thead>
-          <tr>
-            <th data-sort="index">#</th>
-            <th data-sort="name">Name</th>
-            <th data-sort="category">Category</th>
-            <th data-sort="phone">Contact</th>
-            <th data-sort="comments">Comments</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div id="cards-container"></div>
-    </div>
+    <div id="directory"></div>
   </main>
-
   <footer>
-    <p>&copy; 2025 Community Directory</p>
+    <p>Community Directory © 2025</p>
   </footer>
-
   <script src="script.js"></script>
 </body>
 </html>

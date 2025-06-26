@@ -1,22 +1,21 @@
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f8f9fa;
+  font-family: 'Segoe UI', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f9fbfd;
+  color: #333;
 }
 
 header {
   background-color: #007bff;
   color: white;
-  text-align: center;
   padding: 1rem;
+  text-align: center;
 }
 
 main {
   padding: 1rem;
-  max-width: 1000px;
-  margin: auto;
 }
 
 .controls {
@@ -28,63 +27,77 @@ main {
 }
 
 .controls label {
-  font-weight: bold;
+  margin-right: 0.5rem;
 }
 
-#data-table {
+input[type="text"], select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  margin-bottom: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-#data-table thead {
-  background: #f1f1f1;
-}
-
-#data-table th, #data-table td {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
+th, td {
+  padding: 12px 15px;
   text-align: left;
-  vertical-align: top;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-#data-table th {
-  cursor: pointer;
+th {
+  background-color: #f1f3f5;
+  font-weight: 600;
 }
 
-.card {
-  display: none;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+tr:hover {
+  background-color: #f9f9f9;
 }
 
-.card a {
-  text-decoration: none;
+a {
   color: #007bff;
+  text-decoration: none;
 }
 
-.card-number {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+a:hover {
+  text-decoration: underline;
 }
 
 footer {
   text-align: center;
-  font-size: 0.9rem;
-  margin-top: 2rem;
   padding: 1rem;
+  font-size: 0.9rem;
   color: #666;
 }
 
 @media (max-width: 768px) {
-  #data-table {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
     display: none;
   }
-  .card {
-    display: block;
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+
+  td {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  td::before {
+    font-weight: bold;
+    content: attr(data-label);
+    flex-basis: 40%;
   }
 }
