@@ -1,58 +1,93 @@
-async function loadCSV() {
-  const response = await fetch('data.csv');
-  const text = await response.text();
-  const rows = text.trim().split('\n').map(row => row.split(','));
-  const headers = rows.shift();
-  return rows.map(row => Object.fromEntries(row.map((val, i) => [headers[i].trim(), val.trim()])));
-}
 
-function createCard(entry, index) {
-  const card = document.createElement('div');
-  card.className = 'card';
+let originalData = [];
+let currentSort = { key: null, asc: true };
 
-  card.innerHTML = `
-    <div class="row"><span class="label">#</span> ${index + 1}</div>
-    <div class="row"><span class="label">Name</span> ${entry.name}</div>
-    <div class="row"><span class="label">Category</span> ${entry.category}</div>
-    <div class="row"><span class="label">Contact</span> ${entry.phone ? `📞 <a href="tel:${entry.phone}">${entry.phone}</a>` : ''}</div>
-    ${entry.comments ? `<div class="row"><span class="label">Comments</span> ${entry.comments}</div>` : ''}
-  `;
-  return card;
-}
-
-function renderDirectory(data, filterCategory = '', searchTerm = '') {
-  const container = document.getElementById('directory');
-  container.innerHTML = '';
-  const filtered = data.filter(entry =>
-    (!filterCategory || entry.category === filterCategory) &&
-    (!searchTerm || Object.values(entry).some(val => val.toLowerCase().includes(searchTerm.toLowerCase())))
-  );
-  filtered.forEach((entry, index) => {
-    container.appendChild(createCard(entry, index));
+function loadCSV() {
+  Papa.parse("data.csv", {
+    download: true,
+    header: true,
+    complete: function(results) {
+      originalData = results.data.filter(row => row.name);
+      populateCategoryFilter(originalData);
+      renderData(originalData);
+    }
   });
 }
 
-function populateCategoryDropdown(data) {
-  const select = document.getElementById('categoryFilter');
-  const categories = [...new Set(data.map(entry => entry.category))].sort();
+function populateCategoryFilter(data) {
+  const categories = [...new Set(data.map(row => row.category).filter(Boolean))].sort();
+  const select = document.getElementById("category");
+  select.innerHTML = '<option value="All">All</option>';
   categories.forEach(cat => {
-    const option = document.createElement('option');
-    option.value = cat;
-    option.textContent = cat;
-    select.appendChild(option);
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    select.appendChild(opt);
   });
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await loadCSV();
-  populateCategoryDropdown(data);
-  renderDirectory(data);
+function renderData(data) {
+  const tbody = document.querySelector("#data-table tbody");
+  const cards = document.getElementById("cards-container");
+  tbody.innerHTML = "";
+  cards.innerHTML = "";
 
-  document.getElementById('categoryFilter').addEventListener('change', e => {
-    renderDirectory(data, e.target.value, document.getElementById('searchBox').value);
+  const filteredData = applyFilters(data);
+
+  filteredData.forEach((row, index) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${row.name}</td>
+      <td>${row.category}</td>
+      <td><a href="tel:${row.phone}">📞 ${row.phone}</a></td>
+      <td>${row.comments}</td>
+    `;
+    tbody.appendChild(tr);
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-number"># ${index + 1}</div>
+      <div><strong>Name</strong><br>${row.name}</div>
+      <div><strong>Contact</strong><br><a href="tel:${row.phone}">📞 ${row.phone}</a></div>
+      ${row.comments ? `<div><strong>Comments</strong><br>${row.comments}</div>` : ''}
+    `;
+    cards.appendChild(card);
   });
+}
 
-  document.getElementById('searchBox').addEventListener('input', e => {
-    renderDirectory(data, document.getElementById('categoryFilter').value, e.target.value);
+function applyFilters(data) {
+  const category = document.getElementById("category").value;
+  const search = document.getElementById("search").value.toLowerCase();
+
+  return data.filter(row => {
+    const matchesCategory = category === "All" || row.category === category;
+    const matchesSearch = Object.values(row).some(val => val && val.toLowerCase().includes(search));
+    return matchesCategory && matchesSearch;
+  });
+}
+
+function handleFilterChange() {
+  renderData(originalData);
+}
+
+function sortBy(key) {
+  const asc = currentSort.key === key ? !currentSort.asc : true;
+  currentSort = { key, asc };
+  originalData.sort((a, b) => {
+    if (!a[key]) return 1;
+    if (!b[key]) return -1;
+    return asc ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key]);
+  });
+  renderData(originalData);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  loadCSV();
+  document.getElementById("search").addEventListener("input", handleFilterChange);
+  document.getElementById("category").addEventListener("change", handleFilterChange);
+  document.querySelectorAll("th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => sortBy(th.dataset.sort));
   });
 });
