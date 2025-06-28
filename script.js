@@ -4,7 +4,13 @@ async function loadCSV() {
   const text = await response.text();
   const rows = text.trim().split('\n').map(row => row.split(','));
   const headers = rows.shift();
-  return rows.map(row => Object.fromEntries(row.map((val, i) => [headers[i].trim(), val.trim()])));
+  return rows.map(row => {
+    const entry = {};
+    headers.forEach((h, i) => {
+      entry[h.trim()] = (row[i] || "").trim();
+    });
+    return entry;
+  });
 }
 
 function createCard(row, index) {
