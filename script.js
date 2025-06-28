@@ -35,6 +35,7 @@ function renderData(data, categoryFilter = "", search = "") {
            (!search || Object.values(row).some(val => val.toLowerCase().includes(search.toLowerCase())));
   });
 
+  filtered.sort((a, b) => a.category.localeCompare(b.category));
   filtered.forEach((row, index) => {
     container.appendChild(createCard(row, index));
   });
