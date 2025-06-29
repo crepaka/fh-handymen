@@ -35,7 +35,15 @@ function renderData(data, categoryFilter = "", search = "") {
            (!search || Object.values(row).some(val => val.toLowerCase().includes(search.toLowerCase())));
   });
 
-  filtered.sort((a, b) => a.category.localeCompare(b.category));
+  if (!categoryFilter) {
+    filtered.sort((a, b) => {
+      const catCompare = a.category.localeCompare(b.category);
+      return catCompare !== 0 ? catCompare : a.name.localeCompare(b.name);
+    });
+   } else {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  
   filtered.forEach((row, index) => {
     container.appendChild(createCard(row, index));
   });
