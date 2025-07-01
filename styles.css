@@ -1,3 +1,4 @@
+
 body {
   font-family: Arial, sans-serif;
   margin: 1rem;
@@ -36,8 +37,8 @@ input[type="text"], select {
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word;       /* Ensures long words break correctly */
-  white-space: normal;         /* Ensures multiline wrapping */
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 .card-line {
@@ -53,4 +54,11 @@ input[type="text"], select {
     flex-direction: row;
     justify-content: center;
   }
+}
+
+
+.comments {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
