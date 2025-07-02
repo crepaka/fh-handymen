@@ -62,3 +62,18 @@ input[type="text"], select {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+
+.top-link {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.top-link a {
+  text-decoration: none;
+  font-size: 0.9rem;
+  background-color: #0077cc;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
