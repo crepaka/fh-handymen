@@ -3,26 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FH Helpdesk Directory</title>
+  <title>FH Helpdesk</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="header">
-    <a href="https://friscohillshoa.com/homepage.aspx" class="hoa-link">FH HOA Info</a>
-    <button id="feedbackBtn">Send Feedback</button>
+<div class="top-link">
+  <a href="https://friscohillshoa.com/homepage.aspx" target="_blank">FH HOA Info</a>
+</div>
+  <h1>FH Helpdesk Directory</h1>
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search...">
+    <select id="categoryFilter"></select>
   </div>
-  <div class="feedback-form" id="feedbackForm">
-    <form id="contact-form" action="https://formspree.io/f/mnqepnwn" method="POST">
-      <textarea name="message" placeholder="Enter feedback or contact info (max 500 chars)" maxlength="500" required></textarea>
-      <button type="submit">Send</button>
-      <span id="feedbackMessage"></span>
-    </form>
-  </div>
-  <div class="content">
-    <input type="text" id="searchBox" placeholder="Search..." />
-    <select id="categoryDropdown"></select>
-    <div id="results"></div>
-  </div>
+  <div id="directory" class="cards-container"></div>
   <script src="script.js"></script>
 </body>
 </html>

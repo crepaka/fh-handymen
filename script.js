@@ -1,53 +1,78 @@
-document.getElementById("feedbackBtn").addEventListener("click", function() {
-  const form = document.getElementById("feedbackForm");
-  form.style.display = form.style.display === "block" ? "none" : "block";
-});
 
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-  const form = event.target;
-  fetch(form.action, {
-    method: "POST",
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
-  }).then(response => {
-    if (response.ok) {
-      document.getElementById("feedbackMessage").textContent = "Thanks! Your feedback was sent.";
-      form.reset();
-      setTimeout(() => {
-        document.getElementById("feedbackForm").style.display = "none";
-        document.getElementById("feedbackMessage").textContent = "";
-      }, 3000);
-    } else {
-      document.getElementById("feedbackMessage").textContent = "Oops! There was a problem.";
-    }
-  });
-});
-
-// dummy CSV-based example
-const data = [
-  {
-    name: "John Doe",
-    category: "Plumber",
-    phone: "123-456-7890",
-    comments: "Very reliable and affordable service"
-  }
-];
-
-function renderData(entries) {
-  const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "";
-  entries.forEach((item, index) => {
-    const entryDiv = document.createElement("div");
-    entryDiv.classList.add("entry");
-    entryDiv.innerHTML = `
-      <strong>#${index + 1} ${item.name}</strong><br/>
-      <strong>Category:</strong> ${item.category}<br/>
-      <strong>Contact:</strong> 📞 <a href="tel:${item.phone}">${item.phone}</a><br/>
-      <strong>Comments:</strong> ${item.comments}
-    `;
-    resultsDiv.appendChild(entryDiv);
+async function loadCSV() {
+  const response = await fetch('data.csv');
+  const text = await response.text();
+  const rows = text.trim().split('\n').map(row => row.split(','));
+  const headers = rows.shift();
+  return rows.map(row => {
+    const entry = {};
+    headers.forEach((h, i) => {
+      entry[h.trim()] = (row[i] || "").trim();
+    });
+    return entry;
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => renderData(data));
+function createCard(row, index) {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <div class="card-line"><strong>#${index + 1}</strong> &nbsp; <span class="card-name">${row.name}</span></div>
+    <div class="card-line"><strong>Category:</strong> ${row.category}</div>
+    <div class="card-line"><strong>Contact:</strong> <a href="tel:${row.phone}">📞 ${row.phone}</a></div>
+    ${row.email ? `<div class="card-line"><strong>Email:</strong> <a href="mailto:${row.email}">${row.email}</a></div>` : ''}
+    ${row.comments ? `<div class="card-line comments"><strong>Comments:</strong> ${row.comments}</div>` : ''}
+
+  `;
+
+  return card;
+}
+
+function renderData(data, categoryFilter = "", search = "") {
+  const container = document.getElementById("directory");
+  container.innerHTML = "";
+  const filtered = data.filter(row => {
+    return (!categoryFilter || row.category === categoryFilter) &&
+           (!search || Object.values(row).some(val => val.toLowerCase().includes(search.toLowerCase())));
+  });
+
+  if (!categoryFilter) {
+    filtered.sort((a, b) => {
+      const catCompare = a.category.localeCompare(b.category);
+      return catCompare !== 0 ? catCompare : a.name.localeCompare(b.name);
+    });
+   } else {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+    }
+  
+  filtered.forEach((row, index) => {
+    container.appendChild(createCard(row, index));
+  });
+}
+
+function populateDropdown(data) {
+  const select = document.getElementById("categoryFilter");
+  const categories = [...new Set(data.map(row => row.category).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  select.innerHTML = '<option value="">All</option>';
+  categories.forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const data = await loadCSV();
+  populateDropdown(data);
+  renderData(data);
+
+  document.getElementById("categoryFilter").addEventListener("change", e => {
+    renderData(data, e.target.value, document.getElementById("searchBox").value);
+  });
+
+  document.getElementById("searchBox").addEventListener("input", e => {
+    renderData(data, document.getElementById("categoryFilter").value, e.target.value);
+  });
+});
