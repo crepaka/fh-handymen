@@ -76,3 +76,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderData(data, document.getElementById("categoryFilter").value, e.target.value);
   });
 });
+
+const feedbackToggle = document.getElementById("feedback-toggle");
+const feedbackBox = document.getElementById("feedback-box");
+const sendBtn = document.getElementById("send-feedback");
+const feedbackText = document.getElementById("feedback-text");
+
+feedbackToggle.addEventListener("click", () => {
+  feedbackBox.style.display = feedbackBox.style.display === "none" ? "block" : "none";
+});
+
+sendBtn.addEventListener("click", () => {
+  const message = feedbackText.value.trim();
+  if (message.length === 0) {
+    alert("Please enter your feedback.");
+    return;
+  }
+
+  const mailto = `mailto:repakac@yahoo.com?subject=FH Site Feedback&body=${encodeURIComponent(message)}`;
+  window.location.href = mailto;
+});
