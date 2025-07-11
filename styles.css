@@ -77,3 +77,31 @@ input[type="text"], select {
   padding: 4px 7px;
   border-radius: 4px;
 }
+
+.feedback-section {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#feedback-text {
+  width: 90%;
+  height: 100px;
+  max-width: 500px;
+  padding: 8px;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+#send-feedback {
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-size: 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#send-feedback:hover {
+  background-color: #45a049;
+}
