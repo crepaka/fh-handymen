@@ -1,154 +1,51 @@
-
 body {
   font-family: Arial, sans-serif;
-  margin: 1rem;
-  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
 }
 
-h1 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-
-.controls {
+.top-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-input[type="text"], select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 90%;
-  max-width: 400px;
-}
-
-.cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.card {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word;
-  white-space: normal;
-}
-
-.card-line {
-  margin: 0.3rem 0;
-}
-
-.card-name {
-  font-weight: bold;
-}
-
-@media (min-width: 768px) {
-  .controls {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-
-.comments {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.top-link {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.top-link a {
-  text-decoration: none;
-  font-size: 0.5rem;
-  background-color: #0077cc;
+  padding: 10px;
+  background: #004080;
   color: white;
-  padding: 4px 7px;
-  border-radius: 4px;
-}
-
-.feedback-section {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-#feedback-text {
-  width: 90%;
-  height: 100px;
-  max-width: 500px;
-  padding: 8px;
-  margin-top: 8px;
-  font-size: 1rem;
-}
-
-#send-feedback {
-  margin-top: 8px;
-  padding: 6px 12px;
-  font-size: 1rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-#send-feedback:hover {
-  background-color: #45a049;
 }
 
 .hoa-link {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-weight: bold;
-  color: #0077cc;
+  color: white;
   text-decoration: none;
-}
-
-.hoa-link:hover {
-  text-decoration: underline;
+  margin-right: 10px;
 }
 
 .feedback-box {
-  position: absolute;
-  top: 60px;
-  right: 20px;
-  width: 300px;
-  max-width: 90%;
-}
-
-#feedbackForm textarea {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 10px;
-  font-size: 14px;
-  resize: vertical;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  background: #f9f9f9;
 }
 
-#sendBtn {
+.feedback-box textarea {
+  width: 100%;
+  max-width: 500px;
+  height: 100px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.feedback-box button {
   margin-top: 5px;
   padding: 6px 12px;
-  background-color: #0077cc;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
-#feedbackMsg {
+.feedback-message {
   margin-top: 5px;
-  color: green;
-  display: none;
   font-size: 14px;
+  color: green;
+}
+
+.hidden {
+  display: none;
 }

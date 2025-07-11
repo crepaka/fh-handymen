@@ -4,38 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FH Helpdesk</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-<div class="top-link">
-  <a href="https://friscohillshoa.com/homepage.aspx" target="_blank">FH HOA Info</a>
-</div>
-
-  <!-- HOA Link -->
-<a href="https://friscohillshoa.com/homepage.aspx" target="_blank" class="hoa-link">FH HOA Info</a>
-
-<!-- Feedback Box -->
-<div class="feedback-box">
-  <form id="feedbackForm">
-    <textarea id="feedbackInput" maxlength="500" placeholder="Enter feedback or contact info..."></textarea>
-    <button type="submit" id="sendBtn">Send</button>
-  </form>
-  <div id="feedbackMsg">Thanks! Your feedback was submitted.</div>
-</div>
-
-  <h1>FH Helpdesk Directory</h1>
-  <div class="controls">
-    <input type="text" id="searchBox" placeholder="Search...">
-    <select id="categoryFilter"></select>
+  <div class="top-bar">
+    <a href="https://friscohillshoa.com/homepage.aspx" target="_blank" class="hoa-link">FH HOA Info</a>
+    <button id="feedback-toggle">Send Feedback</button>
   </div>
-  <div id="directory" class="cards-container"></div>
-  
- <form id="feedbackForm">
-  <textarea id="feedbackInput" maxlength="500" placeholder="Enter feedback or contact info..."></textarea>
-  <button type="submit" id="sendBtn">Send</button>
-</form>
 
-  <div id="feedbackMsg" style="display:none; color: green; margin-top: 10px;">Thanks! Your feedback was submitted.</div>
+  <div id="feedback-box" class="feedback-box hidden">
+    <textarea id="feedback-input" placeholder="Write your feedback (max 500 characters)"></textarea>
+    <button id="feedback-submit">Send</button>
+    <span id="feedback-message" class="feedback-message"></span>
+  </div>
+
+  <div id="app">
+    <!-- Main content inserted by script.js -->
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
