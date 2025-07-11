@@ -1,63 +1,77 @@
 
-document.addEventListener("DOMContentLoaded", () => {
-  const feedbackBtn = document.getElementById("feedbackBtn");
-  const feedbackForm = document.getElementById("feedbackForm");
-  const feedbackText = document.getElementById("feedbackText");
-  const responseMsg = document.getElementById("responseMsg");
+async function loadCSV() {
+  const response = await fetch('data.csv');
+  const text = await response.text();
+  const rows = text.trim().split('\n').map(row => row.split(','));
+  const headers = rows.shift();
+  return rows.map(row => {
+    const entry = {};
+    headers.forEach((h, i) => {
+      entry[h.trim()] = (row[i] || "").trim();
+    });
+    return entry;
+  });
+}
 
-  feedbackBtn.addEventListener("click", () => {
-    feedbackForm.classList.toggle("hidden");
-    responseMsg.classList.add("hidden");
+function createCard(row, index) {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <div class="card-line"><strong>#${index + 1}</strong> &nbsp; <span class="card-name">${row.name}</span></div>
+    <div class="card-line"><strong>Category:</strong> ${row.category}</div>
+    <div class="card-line"><strong>Contact:</strong> <a href="tel:${row.phone}">📞 ${row.phone}</a></div>
+    ${row.comments ? `<div class="card-line comments"><strong>Comments:</strong> ${row.comments}</div>` : ''}
+
+  `;
+
+  return card;
+}
+
+function renderData(data, categoryFilter = "", search = "") {
+  const container = document.getElementById("directory");
+  container.innerHTML = "";
+  const filtered = data.filter(row => {
+    return (!categoryFilter || row.category === categoryFilter) &&
+           (!search || Object.values(row).some(val => val.toLowerCase().includes(search.toLowerCase())));
   });
 
-  feedbackForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const formData = new FormData(feedbackForm);
-
-    fetch(feedbackForm.action, {
-      method: "POST",
-      body: formData,
-      headers: {
-        Accept: "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          feedbackText.value = "";
-          responseMsg.classList.remove("hidden");
-        } else {
-          alert("Error submitting the form.");
-        }
-      })
-      .catch(() => alert("Failed to send. Check internet connection."));
-  });
-
-  // Simulated data rendering for example:
-  const dummyData = [
-    {
-      name: "Serhii Perinha",
-      category: "Appliance Repair",
-      contact: "469-954-5278",
-      comments: "Fast and reliable appliance repairs!"
-    },
-    {
-      name: "Anupa",
-      category: "Baby Sitter",
-      contact: "203-305-1395",
-      comments: "$7 per hour Lives on 423 and Main. Very reliable"
+  if (!categoryFilter) {
+    filtered.sort((a, b) => {
+      const catCompare = a.category.localeCompare(b.category);
+      return catCompare !== 0 ? catCompare : a.name.localeCompare(b.name);
+    });
+   } else {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
     }
-  ];
+  
+  filtered.forEach((row, index) => {
+    container.appendChild(createCard(row, index));
+  });
+}
 
-  const container = document.getElementById("cardsContainer");
-  dummyData.forEach((row, i) => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <strong>#${i + 1} ${row.name}</strong><br/>
-      <strong>Category:</strong> ${row.category}<br/>
-      <strong>Contact:</strong> <a href="tel:${row.contact}">${row.contact}</a><br/>
-      <strong>Comments:</strong> ${row.comments}
-    `;
-    container.appendChild(div);
+function populateDropdown(data) {
+  const select = document.getElementById("categoryFilter");
+  const categories = [...new Set(data.map(row => row.category).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  select.innerHTML = '<option value="">All</option>';
+  categories.forEach(cat => {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const data = await loadCSV();
+  populateDropdown(data);
+  renderData(data);
+
+  document.getElementById("categoryFilter").addEventListener("change", e => {
+    renderData(data, e.target.value, document.getElementById("searchBox").value);
+  });
+
+  document.getElementById("searchBox").addEventListener("input", e => {
+    renderData(data, document.getElementById("categoryFilter").value, e.target.value);
   });
 });
