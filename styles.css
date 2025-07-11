@@ -1,107 +1,47 @@
-
 body {
   font-family: Arial, sans-serif;
-  margin: 1rem;
-  background-color: #f4f4f4;
+  margin: 0;
+  background-color: #f2f2f2;
 }
-
-h1 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-
-.controls {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-input[type="text"], select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 90%;
-  max-width: 400px;
-}
-
-.cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.card {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-  word-wrap: break-word;
-  white-space: normal;
-}
-
-.card-line {
-  margin: 0.3rem 0;
-}
-
-.card-name {
-  font-weight: bold;
-}
-
-@media (min-width: 768px) {
-  .controls {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-
-.comments {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-.top-link {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.top-link a {
-  text-decoration: none;
-  font-size: 0.5rem;
-  background-color: #0077cc;
+.header {
+  background-color: #004990;
   color: white;
-  padding: 4px 7px;
-  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.feedback-section {
-  margin-top: 1rem;
-  text-align: center;
+.hoa-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
 }
-
-#feedback-text {
-  width: 90%;
-  height: 100px;
-  max-width: 500px;
-  padding: 8px;
-  margin-top: 8px;
-  font-size: 1rem;
+.feedback-form {
+  display: none;
+  padding: 10px;
 }
-
-#send-feedback {
-  margin-top: 8px;
-  padding: 6px 12px;
-  font-size: 1rem;
-  background-color: #4CAF50;
+.feedback-form form {
+  display: flex;
+  flex-direction: column;
+}
+.feedback-form textarea {
+  width: 100%;
+  min-height: 100px;
+  margin: 5px 0;
+}
+.feedback-form button {
+  align-self: flex-start;
+  background-color: green;
   color: white;
   border: none;
-  cursor: pointer;
+  padding: 6px 12px;
 }
-
-#send-feedback:hover {
-  background-color: #45a049;
+#results {
+  margin: 10px;
+}
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
