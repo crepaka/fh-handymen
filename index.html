@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FH Helpdesk</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <title>FH Helpdesk Directory</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="top-bar">
-    <a href="https://friscohillshoa.com/homepage.aspx" target="_blank" class="hoa-link">FH HOA Info</a>
-    <button id="feedback-toggle">Send Feedback</button>
+    <a class="hoa-link" href="https://friscohillshoa.com/homepage.aspx" target="_blank">FH HOA Info</a>
+    <button id="feedbackBtn">Send Feedback</button>
   </div>
 
-  <div id="feedback-box" class="feedback-box hidden">
-    <textarea id="feedback-input" placeholder="Write your feedback (max 500 characters)"></textarea>
-    <button id="feedback-submit">Send</button>
-    <span id="feedback-message" class="feedback-message"></span>
+  <form id="feedbackForm" class="hidden" action="https://formspree.io/f/xleqyyqv" method="POST">
+    <textarea name="message" id="feedbackText" maxlength="500" placeholder="Enter feedback or contact info..."></textarea>
+    <button type="submit">Send</button>
+    <p id="responseMsg" class="hidden">Thanks! Your message was sent.</p>
+  </form>
+
+  <h1>FH Helpdesk Directory</h1>
+
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <select id="categoryFilter"></select>
   </div>
 
-  <div id="app">
-    <!-- Main content inserted by script.js -->
-  </div>
+  <div id="cardsContainer"></div>
 
   <script src="script.js"></script>
 </body>

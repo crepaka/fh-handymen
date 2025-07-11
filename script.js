@@ -1,41 +1,63 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("feedback-toggle");
-  const feedbackBox = document.getElementById("feedback-box");
-  const feedbackInput = document.getElementById("feedback-input");
-  const feedbackSubmit = document.getElementById("feedback-submit");
-  const feedbackMsg = document.getElementById("feedback-message");
 
-  toggleBtn.addEventListener("click", () => {
-    feedbackBox.classList.toggle("hidden");
-    feedbackMsg.textContent = "";
+document.addEventListener("DOMContentLoaded", () => {
+  const feedbackBtn = document.getElementById("feedbackBtn");
+  const feedbackForm = document.getElementById("feedbackForm");
+  const feedbackText = document.getElementById("feedbackText");
+  const responseMsg = document.getElementById("responseMsg");
+
+  feedbackBtn.addEventListener("click", () => {
+    feedbackForm.classList.toggle("hidden");
+    responseMsg.classList.add("hidden");
   });
 
-  feedbackSubmit.addEventListener("click", async () => {
-    const message = feedbackInput.value.trim();
-    if (!message) return;
+  feedbackForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(feedbackForm);
 
-    try {
-      const response = await fetch("https://formspree.io/f/xkgbdyle", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message })
-      });
+    fetch(feedbackForm.action, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          feedbackText.value = "";
+          responseMsg.classList.remove("hidden");
+        } else {
+          alert("Error submitting the form.");
+        }
+      })
+      .catch(() => alert("Failed to send. Check internet connection."));
+  });
 
-      if (response.ok) {
-        feedbackMsg.textContent = "Thank you for your feedback!";
-        feedbackInput.value = "";
-        setTimeout(() => {
-          feedbackBox.classList.add("hidden");
-          feedbackMsg.textContent = "";
-        }, 3000);
-      } else {
-        feedbackMsg.textContent = "Failed to send feedback.";
-      }
-    } catch (err) {
-      feedbackMsg.textContent = "Error sending feedback.";
+  // Simulated data rendering for example:
+  const dummyData = [
+    {
+      name: "Serhii Perinha",
+      category: "Appliance Repair",
+      contact: "469-954-5278",
+      comments: "Fast and reliable appliance repairs!"
+    },
+    {
+      name: "Anupa",
+      category: "Baby Sitter",
+      contact: "203-305-1395",
+      comments: "$7 per hour Lives on 423 and Main. Very reliable"
     }
+  ];
+
+  const container = document.getElementById("cardsContainer");
+  dummyData.forEach((row, i) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <strong>#${i + 1} ${row.name}</strong><br/>
+      <strong>Category:</strong> ${row.category}<br/>
+      <strong>Contact:</strong> <a href="tel:${row.contact}">${row.contact}</a><br/>
+      <strong>Comments:</strong> ${row.comments}
+    `;
+    container.appendChild(div);
   });
 });
