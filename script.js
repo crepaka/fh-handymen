@@ -101,7 +101,7 @@ document.getElementById("feedbackForm").addEventListener("submit", function (e) 
 
   const message = document.getElementById("feedbackInput").value;
 
-  fetch("https://formspree.io/f/xkgbdyle", {  // Replace with your Formspree endpoint
+  fetch("https://formspree.io/f/xkgbdyle", { // Replace with your actual Formspree endpoint
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message })
@@ -110,6 +110,9 @@ document.getElementById("feedbackForm").addEventListener("submit", function (e) 
       if (response.ok) {
         document.getElementById("feedbackInput").value = "";
         document.getElementById("feedbackMsg").style.display = "block";
+        setTimeout(() => {
+          document.getElementById("feedbackMsg").style.display = "none";
+        }, 3000);
       } else {
         alert("Submission failed. Please try again.");
       }
@@ -118,4 +121,3 @@ document.getElementById("feedbackForm").addEventListener("submit", function (e) 
       alert("Error submitting form.");
     });
 });
-
