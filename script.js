@@ -94,5 +94,4 @@ sendBtn.addEventListener("click", () => {
   }
 
   const mailto = `mailto:repakac@yahoo.com?subject=FH Site Feedback&body=${encodeURIComponent(message)}`;
-  window.location.href = mailto;
 });
