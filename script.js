@@ -21,6 +21,7 @@ function createCard(row, index) {
     <div class="card-line"><strong>#${index + 1}</strong> &nbsp; <span class="card-name">${row.name}</span></div>
     <div class="card-line"><strong>Category:</strong> ${row.category}</div>
     <div class="card-line"><strong>Contact:</strong> <a href="tel:${row.phone}">📞 ${row.phone}</a></div>
+    ${row.email ? `<div class="card-line"><strong>Email:</strong> <a href="mailto:${row.email}">${row.email}</a></div>` : ''}
     ${row.comments ? `<div class="card-line comments"><strong>Comments:</strong> ${row.comments}</div>` : ''}
 
   `;
