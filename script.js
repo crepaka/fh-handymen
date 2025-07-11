@@ -95,3 +95,27 @@ sendBtn.addEventListener("click", () => {
 
   const mailto = `mailto:repakac@yahoo.com?subject=FH Site Feedback&body=${encodeURIComponent(message)}`;
 });
+
+document.getElementById("feedbackForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const message = document.getElementById("feedbackInput").value;
+
+  fetch("https://formspree.io/f/xkgbdyle", {  // Replace with your Formspree endpoint
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message })
+  })
+    .then((response) => {
+      if (response.ok) {
+        document.getElementById("feedbackInput").value = "";
+        document.getElementById("feedbackMsg").style.display = "block";
+      } else {
+        alert("Submission failed. Please try again.");
+      }
+    })
+    .catch(() => {
+      alert("Error submitting form.");
+    });
+});
+
