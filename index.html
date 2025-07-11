@@ -16,13 +16,17 @@
     <select id="categoryFilter"></select>
   </div>
   <div id="directory" class="cards-container"></div>
-  <div class="feedback-section">
-    <button id="feedback-toggle">Send Feedback</button>
-    <div id="feedback-box" style="display:none; margin-top: 10px;">
-      <textarea id="feedback-text" maxlength="500" placeholder="Enter your feedback or contact info (max 500 characters)"></textarea>
-      <button id="send-feedback">Send</button>
-    </div>
+  <form
+  action="https://formspree.io/f/xkgbdyle"
+  method="POST"
+  class="feedback-section"
+>
+  <button type="button" id="feedback-toggle">Send Feedback</button>
+  <div id="feedback-box" style="display:none; margin-top: 10px;">
+    <textarea name="message" maxlength="500" required placeholder="Enter your feedback or contact info (max 500 characters)"></textarea>
+    <button type="submit">Send</button>
   </div>
+</form>
   <script src="script.js"></script>
 </body>
 </html>
