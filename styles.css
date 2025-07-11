@@ -105,3 +105,50 @@ input[type="text"], select {
 #send-feedback:hover {
   background-color: #45a049;
 }
+
+.hoa-link {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-weight: bold;
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.hoa-link:hover {
+  text-decoration: underline;
+}
+
+.feedback-box {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 300px;
+  max-width: 90%;
+}
+
+#feedbackForm textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  resize: vertical;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+#sendBtn {
+  margin-top: 5px;
+  padding: 6px 12px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#feedbackMsg {
+  margin-top: 5px;
+  color: green;
+  display: none;
+  font-size: 14px;
+}
